@@ -1,2 +1,8 @@
 @import "~foundation-sites/scss/foundation";
 @include foundation-everything;
+
+.stackForm {
+    label {
+        //width: 50%;
+    }
+}
