@@ -1,6 +1,6 @@
 import React from 'react';
-import NewPayment from "../components/NewPayment";
-import CashStack from '../components/CashStack';
+import NewPayment from "../containers/NewPayment";
+import CashStackUI from '../containers/CashStackUI';
 
 
 export default class CashRegister extends React.Component {
@@ -31,6 +31,9 @@ export default class CashRegister extends React.Component {
 
     onNewPayment (price, stack) {
         console.log('CR onNewPayment', price, stack)
+        this.setState({
+            newPayment: false
+        })
     }
 
     render() {
@@ -44,7 +47,7 @@ export default class CashRegister extends React.Component {
                         { !this.state.stack ? (
                             <div>
                                 <h4>Fill in initial cash</h4>
-                                <CashStack onUserSubmit={this.setInitalCash} />
+                                <CashStackUI onUserSubmit={this.setInitalCash} />
                             </div>
                         ) : (
                             <div>
@@ -52,6 +55,7 @@ export default class CashRegister extends React.Component {
                                     <div className="row column">
                                         <p>Output:</p>
                                         <h4 className="text-center">...</h4>
+                                        <p>${this.state.stack.getSum().toString()}</p>
                                     </div>
                                 </div>
                                  { !this.state.newPayment ? (
