@@ -85,6 +85,7 @@ export default class CashRegister extends React.Component {
     }
 
     render() {
+
         return (
             <div>
                 <div className="row">
@@ -115,9 +116,13 @@ export default class CashRegister extends React.Component {
                                         </div>
                                     </div>
                                     {!this.state.newPayment && !this.state.showDetails && (
-                                        <div className="button-group">
-                                            <a className="secondary button" onClick={this.showPayment} disabled={this.state.display.length > 0}>New payment</a>
-                                            <a className="button" onClick={this.showDetails} disabled={this.state.showDetails}>Get current cash details</a>
+                                        <div className="button-group">                                            [
+                                            {this.state.display.length === 0 ? (
+                                                <a className="secondary button" onClick={this.showPayment}>New payment</a>
+                                            ) : (
+                                                <a className="secondary button" disabled>New payment</a>
+                                            )}
+                                            <a className="button" onClick={this.showDetails}>Get current cash details</a>
                                         </div>
                                     )}
                                     {this.state.newPayment && (
