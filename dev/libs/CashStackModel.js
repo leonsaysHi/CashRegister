@@ -23,12 +23,15 @@ const CashStackModel = () => {
         // get change
         const newStack = new CashStackModel().addStack(self).addStack(paymentStack)
         const changeStack = new CashStackModel()
-        const counts = stack.slice().reverse()
+        const counts = newStack.getItemsStack().reverse()
         for (let item of counts) {
-            while (due.greaterThan(0) && due.greaterThanOrEqualTo(item.value) && item.count > 0) {
-                item.count--
-                changeStack.addKind(item.name, 1)
+            while (
+                due.greaterThan(0)
+                && due.greaterThanOrEqualTo(item.value)
+                && newStack.getKindCount(item.name) > 0
+            ) {
                 newStack.addKind(item.name, -1)
+                changeStack.addKind(item.name, 1)
                 due = due.minus(item.value)
             }
         }
@@ -40,7 +43,8 @@ const CashStackModel = () => {
     }
 
     // utils
-    const getItemsStack = () => stack.slice()
+    const getItemsStack = () => stack.slice()    
+    const getItem = (name) => stack.find(_item => name === _item.name)
     const getSum = () => {
         return stack.reduce((sum, item) => {
             sum = sum.plus(item.value.times(item.count))
@@ -49,11 +53,15 @@ const CashStackModel = () => {
     }
     const addStack = _stack => {
         stack.map(item => {
-            const sitem = _stack.findKind(item.name)
+            const sitem = _stack.getItem(item.name)
             item.count += sitem.count
             return item
         })
         return self
+    }
+    const getKindCount = (name) => {
+        const item = getItem(name)
+        return item.count
     }
     const addKind = (name, n) => {
         const item = stack.find(item => item.name === name)
@@ -63,13 +71,12 @@ const CashStackModel = () => {
         return self
     }
     const updateKind = (name, n) => {
-        const item = stack.find(item => item.name === name)
+        const item = getItem(name)
         if (item) {
             item.count = parseInt(n);
         }
         return self
     }
-    const findKind = (name) => stack.find(_item => name === _item.name)
 
     // shortcut to add coins/bills to stack
     const penny = (n) => addKind('PENNY', n)
@@ -96,9 +103,10 @@ const CashStackModel = () => {
 
         addKind,
         updateKind,
-        findKind,
+        getKindCount,
 
         getItemsStack,
+        getItem,
 
         addStack,
         getSum,

@@ -49,7 +49,13 @@ export default class CashStack extends React.Component {
                 </div>
                 <div className="row">
                     <div className="small-12 medium-9 columns">
-                        <h5 className="text-right">Total: $ {this.state.cashstack.getSum().toString()}</h5>
+                        {this.props.disabled ? (
+                            <div><code>
+                                {this.state.cashstack.output()}
+                            </code></div>
+                        ) : (
+                            <h5 className="text-right">Total: $ {this.state.cashstack.getSum().toString()}</h5>
+                        )}
                     </div>
                     <div className="small-12 medium-3 columns">
                         <div className="button-group">
@@ -58,11 +64,6 @@ export default class CashStack extends React.Component {
                         </div>
                     </div>
                 </div>
-                {this.props.disabled && (
-                    <div><code>
-                        {this.state.cashstack.output()}
-                    </code></div>
-                )}
             </div>
         );
     }
