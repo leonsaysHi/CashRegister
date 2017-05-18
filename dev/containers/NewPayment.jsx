@@ -43,7 +43,7 @@ export default class NewPayment extends React.Component {
                 </div>
                 {this.state.priceError ? <span>Price should be above 0.</span> : ''}
                 <hr />
-                <CashStackUI onUserSubmit={this.onStackSubmit} />
+                <CashStackUI onCancel={this.props.onCancel} onUserSubmit={this.onStackSubmit} />
             </div>
         );
     }

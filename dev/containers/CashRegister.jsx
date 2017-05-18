@@ -17,6 +17,7 @@ export default class CashRegister extends React.Component {
 
         this.setInitalCash = this.setInitalCash.bind(this)
         this.showPayment = this.showPayment.bind(this)
+        this.hidePayment = this.hidePayment.bind(this)
         this.onNewPayment = this.onNewPayment.bind(this)
         this.updateDisplay = this.updateDisplay.bind(this)
         this.showDetails = this.showDetails.bind(this)
@@ -34,6 +35,12 @@ export default class CashRegister extends React.Component {
         this.setState({
             newPayment: true
         })
+    }
+
+    hidePayment() {       
+        this.setState({
+            newPayment: false
+        }) 
     }
 
     showDetails() {
@@ -113,9 +120,14 @@ export default class CashRegister extends React.Component {
                                             <a className="button" onClick={this.showDetails} disabled={this.state.showDetails}>Get current cash details</a>
                                         </div>
                                     ) : (
-                                        <NewPayment onSubmit={this.onNewPayment} />
+                                        <NewPayment onSubmit={this.onNewPayment} onCancel={this.hidePayment} />
                                     )}
-                                    { this.state.showDetails && <CashStackUI onUserSubmit={this.hideDetails} stack={this.state.stack} disabled={true} />}
+                                    { this.state.showDetails && (
+                                        <div>
+                                            <h4>Available cash detail</h4>
+                                            <CashStackUI onUserSubmit={this.hideDetails} stack={this.state.stack} disabled={true} />
+                                        </div>
+                                    )}
                                 </div>
                             )}
                     </div>

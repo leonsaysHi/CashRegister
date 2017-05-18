@@ -34,7 +34,8 @@ export default class CashStack extends React.Component {
 
     render() {
 
-
+        const okbuttonclasses = ['button']
+        !this.props.onCancel && okbuttonclasses.push('expanded')
         return (
             <div className="stackForm">
                 <div className="row">
@@ -48,11 +49,14 @@ export default class CashStack extends React.Component {
                     ))}
                 </div>
                 <div className="row">
-                    <div className="small-12 medium-10 columns">
+                    <div className="small-12 medium-9 columns">
                         <h5 className="text-right">Total: $ {this.state.cashstack.getSum().toString()}</h5>
                     </div>
-                    <div className="small-12 medium-2 columns">
-                        <button type="button" className="button expanded" onClick={this.submitStack}>Go</button>
+                    <div className="small-12 medium-3 columns">
+                        <div className="button-group">
+                            {this.props.onCancel && <button type="button" className="button secondary" onClick={this.props.onCancel}>Cancel</button>}
+                            <button type="button" className={okbuttonclasses.join(' ')} onClick={this.submitStack}>OK</button>
+                        </div>
                     </div>
                 </div>
             </div>
