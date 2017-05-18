@@ -7,7 +7,7 @@ export default class CashStack extends React.Component {
         super(props);
 
         this.state = {
-            cashstack: this.props.stack || new CashStackModel()
+            cashstack: this.props.stack ||  new CashStackModel()
         }
 
         this.submitStack = this.submitStack.bind(this)
@@ -15,7 +15,7 @@ export default class CashStack extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        
+
     }
 
     submitStack() {
@@ -26,12 +26,13 @@ export default class CashStack extends React.Component {
         return (evt) => {
             const cashstack = new CashStackModel()
             let count = parseInt(evt.target.value)
-            if(isNaN(count) || count < 0) {
+            if (isNaN(count) || count < 0) {
                 count = 0
             }
             cashstack.addStack(this.state.cashstack)
             cashstack.updateKind(evt.target.name, count)
-            this.setState({ cashstack })        }
+            this.setState({ cashstack })
+        }
     }
 
     render() {
@@ -61,6 +62,11 @@ export default class CashStack extends React.Component {
                         </div>
                     </div>
                 </div>
+                {this.props.disabled && (
+                    <div><code>
+                        {this.state.cashstack.output()}
+                    </code></div>
+                )}
             </div>
         );
     }

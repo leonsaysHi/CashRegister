@@ -103,7 +103,7 @@ const CashStackModel = () => {
         getSum,
         getChange,
 
-        output: () => stack.map(item => [item.name, item.value.times(item.count).toString()])
+        output: () => JSON.stringify(stack.map(item => [item.name, item.value.times(item.count).toString()]))
     }
     return self
 };
