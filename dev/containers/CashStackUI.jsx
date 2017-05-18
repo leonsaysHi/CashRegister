@@ -7,11 +7,15 @@ export default class CashStack extends React.Component {
         super(props);
 
         this.state = {
-            cashstack: new CashStackModel()
+            cashstack: this.props.stack || new CashStackModel()
         }
 
         this.submitStack = this.submitStack.bind(this)
         this.handleItemCountChange = this.handleItemCountChange.bind(this)
+    }
+
+    componentWillReceiveProps(nextProps) {
+        
     }
 
     submitStack() {
@@ -38,7 +42,7 @@ export default class CashStack extends React.Component {
                         <div className="small-12 medium-4 columns" key={idx}>
                             <div className="input-group">
                                 <span className="input-group-label">{item.label}:</span>
-                                <input disabled={this.props.disabled} className="input-group-field" type="number" name={item.name} onChange={this.handleItemCountChange(idx)} />
+                                <input disabled={this.props.disabled} className="input-group-field" type="number" value={item.count} name={item.name} onChange={this.handleItemCountChange(idx)} />
                             </div>
                         </div>
                     ))}

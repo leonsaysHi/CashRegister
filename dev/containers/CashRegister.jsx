@@ -11,6 +11,7 @@ export default class CashRegister extends React.Component {
             stack: null,
             initialStack: null,
             newPayment: false,
+            showDetails: false,
             display: []
         }
 
@@ -18,6 +19,8 @@ export default class CashRegister extends React.Component {
         this.showPayment = this.showPayment.bind(this)
         this.onNewPayment = this.onNewPayment.bind(this)
         this.updateDisplay = this.updateDisplay.bind(this)
+        this.showDetails = this.showDetails.bind(this)
+        this.hideDetails = this.hideDetails.bind(this)
     }
 
     setInitalCash(stack) {
@@ -30,6 +33,19 @@ export default class CashRegister extends React.Component {
     showPayment() {
         this.setState({
             newPayment: true
+        })
+    }
+
+    showDetails() {
+        this.setState({
+            showDetails: true
+        })
+    }
+
+    hideDetails() {
+        console.log('hide')
+        this.setState({
+            showDetails: false
         })
     }
 
@@ -94,11 +110,12 @@ export default class CashRegister extends React.Component {
                                     {!this.state.newPayment ? (
                                         <div className="button-group">
                                             <a className="secondary button" onClick={this.showPayment} disabled={this.state.display.length > 0}>New payment</a>
-                                            <a className="button">Get current cash details</a>
+                                            <a className="button" onClick={this.showDetails} disabled={this.state.showDetails}>Get current cash details</a>
                                         </div>
                                     ) : (
                                         <NewPayment onSubmit={this.onNewPayment} />
                                     )}
+                                    { this.state.showDetails && <CashStackUI onUserSubmit={this.hideDetails} stack={this.state.stack} disabled={true} />}
                                 </div>
                             )}
                     </div>
