@@ -38,7 +38,7 @@ export default class CashStack extends React.Component {
                         <div className="small-12 medium-4 columns" key={idx}>
                             <div className="input-group">
                                 <span className="input-group-label">{item.label}:</span>
-                                <input className="input-group-field" type="number" name={item.name} onChange={this.handleItemCountChange(idx)} />
+                                <input disabled={this.props.disabled} className="input-group-field" type="number" name={item.name} onChange={this.handleItemCountChange(idx)} />
                             </div>
                         </div>
                     ))}

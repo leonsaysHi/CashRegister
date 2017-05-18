@@ -9,17 +9,21 @@ export default class CashRegister extends React.Component {
 
         this.state = {
             stack: null,
-            newPayment: false
+            initialStack: null,
+            newPayment: false,
+            display: []
         }
 
         this.setInitalCash = this.setInitalCash.bind(this)
         this.showPayment = this.showPayment.bind(this)
         this.onNewPayment = this.onNewPayment.bind(this)
+        this.updateDisplay = this.updateDisplay.bind(this)
     }
 
     setInitalCash(stack) {
         this.setState({
-            stack
+            stack,
+            initialStack: Object.assign({}, stack)
         })
     }
 
@@ -29,20 +33,33 @@ export default class CashRegister extends React.Component {
         })
     }
 
+    updateDisplay() {
+        const display = this.state.display.slice(1)
+        this.setState({
+            display
+        })
+    }
+
     onNewPayment(price, paymentStack) {
 
         const changeResult = this.state.stack.getChange(price, paymentStack)
 
         const ret = { message: [] }
-        const newState = { newPayment: false }
+        const display = this.state.display.slice()
         if (changeResult.success) {
-            newState.stack = changeResult.newStack
-            ret.message.push('Change Due: ' + changeResult.changeStack.getSum().toString())
+            this.setState({
+                stack: changeResult.newStack
+            })
+            display.push('Change Due: $' + changeResult.changeStack.getSum().toString())
         }
         else {
-            ret.message.push('Insufficient Funds')
+            display.push('Insufficient Funds')
         }
-        this.setState(newState)
+        display.push('Closed')
+        this.setState({ 
+            display,
+            newPayment: false
+        })
     }
 
     render() {
@@ -60,21 +77,28 @@ export default class CashRegister extends React.Component {
                             </div>
                         ) : (
                                 <div>
-                                    <div className="callout large primary">
-                                        <div className="row column">
-                                            <p>Output:</p>
-                                            <h4 className="text-center">...</h4>
-                                            <p>${this.state.stack.getSum().toString()}</p>
+                                    <div className="callout secondary display">
+                                        <h4 className="text-center message">
+                                            {this.state.display.length > 0 && (
+                                                <span>
+                                                    {this.state.display[0]}<br /><a onClick={this.updateDisplay}>Next</a>
+                                                </span>
+                                            )}
+                                        </h4>
+                                        <div className="row details">
+                                            <div className="small-12 medium-4 columns">Total available:<br />${this.state.stack.getSum().toString()}</div>
+                                            <div className="small-12 medium-4 columns">Initialy available:<br />${this.state.initialStack.getSum().toString()}</div>
+                                            <div className="small-12 medium-4 columns">Sold amount:<br />${this.state.stack.getSum().minus(this.state.initialStack.getSum()).toString()}</div>
                                         </div>
                                     </div>
                                     {!this.state.newPayment ? (
                                         <div className="button-group">
-                                            <a className="secondary button" onClick={this.showPayment}>New payment</a>
+                                            <a className="secondary button" onClick={this.showPayment} disabled={this.state.display.length > 0}>New payment</a>
                                             <a className="button">Get current cash details</a>
                                         </div>
                                     ) : (
-                                            <NewPayment onSubmit={this.onNewPayment} />
-                                        )}
+                                        <NewPayment onSubmit={this.onNewPayment} />
+                                    )}
                                 </div>
                             )}
                     </div>
