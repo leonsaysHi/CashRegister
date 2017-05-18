@@ -12,7 +12,7 @@ export default class NewPayment extends React.Component {
         }
 
         this.handlePriceChange = this.handlePriceChange.bind(this)
-        this.onStackSubmit = this.onStackSubmit.bind(this) 
+        this.onStackSubmit = this.onStackSubmit.bind(this)
     }
 
     handlePriceChange(evt) {
@@ -22,16 +22,15 @@ export default class NewPayment extends React.Component {
         });
     }
 
-    onStackSubmit (stack) {
-        console.log(this.state, this.state.formDatas)
+    onStackSubmit(stack) {
         if (parseInt(this.state.price) > 0) {
-            this.props.onSubmit(stack, this.state.price)
+            this.props.onSubmit(this.state.price, stack)
         }
         else {
             this.setState({
                 priceError: true
             })
-        }        
+        }
     }
 
     render() {
@@ -42,9 +41,9 @@ export default class NewPayment extends React.Component {
                     <span className="input-group-label">Amount in $</span>
                     <input className="input-group-field" type="number" onChange={this.handlePriceChange} />
                 </div>
-                { this.state.priceError ? <span>Price should be above 0.</span> : '' }
+                {this.state.priceError ? <span>Price should be above 0.</span> : ''}
                 <hr />
-                <CashStackUI onUserSubmit={this.onStackSubmit}  />
+                <CashStackUI onUserSubmit={this.onStackSubmit} />
             </div>
         );
     }

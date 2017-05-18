@@ -14,7 +14,7 @@ export default class CashStack extends React.Component {
         this.handleItemCountChange = this.handleItemCountChange.bind(this)
     }
 
-    submitStack() {        
+    submitStack() {
         this.props.onUserSubmit(this.state.cashstack)
     }
 
