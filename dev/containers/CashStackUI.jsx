@@ -25,11 +25,13 @@ export default class CashStack extends React.Component {
     handleItemCountChange(idx) {
         return (evt) => {
             const cashstack = new CashStackModel()
+            let count = parseInt(evt.target.value)
+            if(isNaN(count) || count < 0) {
+                count = 0
+            }
             cashstack.addStack(this.state.cashstack)
-            cashstack.updateKind(evt.target.name, evt.target.value)
-
-            this.setState({ cashstack })
-        }
+            cashstack.updateKind(evt.target.name, count)
+            this.setState({ cashstack })        }
     }
 
     render() {
