@@ -37,10 +37,10 @@ export default class CashRegister extends React.Component {
         })
     }
 
-    hidePayment() {       
+    hidePayment() {
         this.setState({
             newPayment: false
-        }) 
+        })
     }
 
     showDetails() {
@@ -50,7 +50,6 @@ export default class CashRegister extends React.Component {
     }
 
     hideDetails() {
-        console.log('hide')
         this.setState({
             showDetails: false
         })
@@ -79,7 +78,7 @@ export default class CashRegister extends React.Component {
             display.push('Insufficient Funds')
         }
         display.push('Closed')
-        this.setState({ 
+        this.setState({
             display,
             newPayment: false
         })
@@ -108,21 +107,23 @@ export default class CashRegister extends React.Component {
                                                 </span>
                                             )}
                                         </h4>
+                                        <hr />
                                         <div className="row details">
-                                            <div className="small-12 medium-4 columns">Total available:<br />${this.state.stack.getSum().toString()}</div>
-                                            <div className="small-12 medium-4 columns">Initialy available:<br />${this.state.initialStack.getSum().toString()}</div>
-                                            <div className="small-12 medium-4 columns">Sold amount:<br />${this.state.stack.getSum().minus(this.state.initialStack.getSum()).toString()}</div>
+                                            <div className="small-12 medium-4 columns">Initialy available:<div className="stat">${this.state.initialStack.getSum().toString()}</div></div>
+                                            <div className="small-12 medium-4 columns">Sold amount:<div className="stat">${this.state.stack.getSum().minus(this.state.initialStack.getSum()).toString()}</div></div>
+                                            <div className="small-12 medium-4 columns"><strong>Total available:</strong><div className="stat">${this.state.stack.getSum().toString()}</div></div>
                                         </div>
                                     </div>
-                                    {!this.state.newPayment ? (
+                                    {!this.state.newPayment && !this.state.showDetails && (
                                         <div className="button-group">
                                             <a className="secondary button" onClick={this.showPayment} disabled={this.state.display.length > 0}>New payment</a>
                                             <a className="button" onClick={this.showDetails} disabled={this.state.showDetails}>Get current cash details</a>
                                         </div>
-                                    ) : (
+                                    )}
+                                    {this.state.newPayment && (
                                         <NewPayment onSubmit={this.onNewPayment} onCancel={this.hidePayment} />
                                     )}
-                                    { this.state.showDetails && (
+                                    {this.state.showDetails && (
                                         <div>
                                             <h4>Available cash detail</h4>
                                             <CashStackUI onUserSubmit={this.hideDetails} stack={this.state.stack} disabled={true} />

@@ -7,15 +7,11 @@ export default class CashStack extends React.Component {
         super(props);
 
         this.state = {
-            cashstack: this.props.stack ||  new CashStackModel()
+            cashstack: this.props.stack || new CashStackModel()
         }
 
         this.submitStack = this.submitStack.bind(this)
         this.handleItemCountChange = this.handleItemCountChange.bind(this)
-    }
-
-    componentWillReceiveProps(nextProps) {
-
     }
 
     submitStack() {

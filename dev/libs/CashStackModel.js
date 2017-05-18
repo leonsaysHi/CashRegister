@@ -26,6 +26,7 @@ const CashStackModel = () => {
         const counts = stack.slice().reverse()
         for (let item of counts) {
             while (due.greaterThan(0) && due.greaterThanOrEqualTo(item.value) && item.count > 0) {
+                item.count--
                 changeStack.addKind(item.name, 1)
                 newStack.addKind(item.name, -1)
                 due = due.minus(item.value)
